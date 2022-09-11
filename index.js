@@ -3,6 +3,7 @@
 // I could add another function in each object creation instance that then appends the object to an html string literal
 // for example: <Header> <h1> Your Team: </h1> </Header>    <div id = manager> ${manager} </div> 
 // Each time I create a new object, I append that string template with the object variable into my html 
+//! I can simply append the card html to a string template setup for engineer and for intern, meaning I will have an engineer template that is full of engineer cards, and an intern template that is full of intern cards, and those individual templates will be added to the main html file at the end. 
 
 
 const inquirer = require('inquirer');
@@ -121,7 +122,7 @@ inquirer
     .then((data) => {
         const manager = generateHTML.createManager(data.name, data.ID, data.email, data.office);
         console.log (manager);
-        writeHTML(generateHTML.page(manager));
+        writeHTML(generateHTML.page(manager)); //! This call the writeHTML function in this file using the stringHTML returned by the page function in the generateHTML file, which itself uses the string template from the managerHTML function in the generateHTML file. I need to make this work with engineers and interns, every time a new one is created, without knowing how many will be created. This means I can simply append the card html to a string template setup for engineer and for intern, meaning I will have an engineer template that is full of engineer cards, and an intern template that is full of intern cards, and those individual templates will be added to the main html file at the end. 
 
         createMenu();
     })

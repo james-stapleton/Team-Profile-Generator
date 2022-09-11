@@ -20,7 +20,7 @@ class Manager {
 
 class Engineer {
     constructor(name, ID, email, Github) {
-        this.name = namel
+        this.name = name
         this.ID = ID;
         this.email = email;
         this.Github = Github;
@@ -42,12 +42,14 @@ function createManager(name, ID, email, office) {
     return manager;
 }
 // Create a new engineer/intern object then return to the menu
-function createEngineer() {
-
+function createEngineer(name, ID, email, github) {
+    var engineer = new Engineer(name, ID, email, github);
+    return engineer;
 }
 
-function createIntern() {
-
+function createIntern(name, ID, email, school) {
+    var intern = new Intern(name, ID, email, school);
+    return intern;
 }
 // Create function to add these objects to an HTML page
 
@@ -55,3 +57,5 @@ function createIntern() {
 module.exports.log = log;
 module.exports.logMessage = logMessage;
 module.exports.createManager = createManager;
+module.exports.createEngineer = createEngineer;
+module.exports.createIntern = createIntern;

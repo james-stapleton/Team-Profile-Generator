@@ -1,8 +1,7 @@
 
 log = () => console.log("Generate HTML file linked!");
 logMessage = (message) => console.log(message);
-module.exports.log = log;
-module.exports.logMessage = logMessage;
+
 
 // Create classes for Manager, Engineer and Intern. 
     // Classes contain team manager’s name, employee ID, email address, and office number && engineer’s name, ID, email, and GitHub username && intern’s name, ID, email, and school
@@ -36,6 +35,23 @@ class Intern {
         this.school = school;
     }
 }
-// Create function that creates a manager object and then calls another function for a menu to select an engineer or intern
+// Create function that creates a new instance manager object and then calls another function for a menu to select an engineer or intern
+
+function createManager(name, ID, email, office) {
+    var manager = new Manager(name, ID, email, office);
+    return manager;
+}
 // Create a new engineer/intern object then return to the menu
+function createEngineer() {
+
+}
+
+function createIntern() {
+
+}
 // Create function to add these objects to an HTML page
+
+
+module.exports.log = log;
+module.exports.logMessage = logMessage;
+module.exports.createManager = createManager;

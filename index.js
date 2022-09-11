@@ -52,6 +52,29 @@ const questionsEngineer = [
 }
 ]
 
+const questionsIntern = [
+    {
+        type: "input",
+        name: "name",
+        message: "What is the intern's name?",
+    },
+    {
+        type: "input",
+        name: "internID",
+        message: "ID? "
+    },
+    {
+        type: "input",
+        name: "email",
+        message: "Email? "
+    },
+    {
+        type: "input",
+        name: "school",
+        message: "School? "
+    }
+    ]
+
 function createMenu() {
     inquirer
     .prompt([
@@ -67,17 +90,21 @@ function createMenu() {
         switch(employee) {
             case "Engineer":
                 console.log("Create a new engineer");
+                engineerPrompt();
                 break;
             case "Intern":
                 console.log("Create a new Intern");
+                internPrompt();
+                break;
+            case"Finish":
+                generateHTML.page();
                 break;
         }
-        createMenu();
     }
     
     )
 }
-
+function init() {
 inquirer
     .prompt(questionsManager)
     .then((data) => {
@@ -85,3 +112,28 @@ inquirer
         console.log (manager);
         createMenu();
     })
+}
+
+function engineerPrompt() {
+    inquirer
+    .prompt(questionsEngineer)
+    .then((data) => {
+        let engineer = generateHTML.createEngineer(data.name, data.ID, data.email, data.github);
+        console.log(engineer);
+        createMenu();
+    })
+}
+
+function internPrompt() {
+    inquirer
+    .prompt(questionsIntern)
+    .then((data) => {
+        console.log(data);
+        let intern = generateHTML.createIntern(data.name, data.internID, data.email, data.school);
+        console.log(intern);
+        createMenu();
+    })
+    
+}
+
+init();

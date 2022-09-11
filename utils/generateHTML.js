@@ -52,6 +52,9 @@ function createIntern(name, ID, email, school) {
     return intern;
 }
 // Create function to add these objects to an HTML page
+function page() {
+    console.log(`Objects will appear here`);
+}
 
 
 module.exports.log = log;
@@ -59,3 +62,4 @@ module.exports.logMessage = logMessage;
 module.exports.createManager = createManager;
 module.exports.createEngineer = createEngineer;
 module.exports.createIntern = createIntern;
+module.exports.page = page;

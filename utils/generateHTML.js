@@ -25,6 +25,10 @@ class Engineer {
     }
 }
 
+function engineerHTML(stringHTML, data) {
+    //! Pass a global variable for the HTML here, keep appending to it, god I really hope I can append to a string literal
+}
+
 class Intern {
     constructor(name, ID, email, school) {
         this.name = name;

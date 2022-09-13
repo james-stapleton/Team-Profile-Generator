@@ -3,15 +3,13 @@
 // I could add another function in each object creation instance that then appends the object to an html string literal
 // for example: <Header> <h1> Your Team: </h1> </Header>    <div id = manager> ${manager} </div> 
 // Each time I create a new object, I append that string template with the object variable into my html 
-//! I can simply append the card html to a string template setup for engineer and for intern, meaning I will have an engineer template that is full of engineer cards, and an intern template that is full of intern cards, and those individual templates will be added to the main html file at the end. 
-
 
 const inquirer = require('inquirer');
 const fs = require('fs');
-const generateHTML = require('./utils/generateHTML.js');
+const generateBaseHTML = require('./utils/generateHTML.js');
+const Manager = require('./lib/Manager');
 
-generateHTML.log();
-generateHTML.logMessage("Also I can export multiple functions");
+const teamArray = [];
 
 // array of questions for prompt to create new Manager instance object
 const questionsManager = [
@@ -95,24 +93,23 @@ function createMenu() {
             choices: ['Engineer', 'Intern', 'Finish'] 
         }
     ])
-    .then((data) => {
-        var employee = data.employee;
+    .then(({ employee }) => {
         switch(employee) {
-            case "Engineer":
-                console.log("Create a new engineer");
-                engineerPrompt();
-                break;
-            case "Intern":
-                console.log("Create a new Intern");
-                internPrompt();
-                break;
-            case"Finish":
-                // generateHTML.page(manager);
-                break;
+            // case "Engineer":
+            //     console.log("Create a new engineer");
+            //     engineerPrompt();
+            //     break;
+            // case "Intern":
+            //     console.log("Create a new Intern");
+            //     internPrompt();
+            //     break;
+            default:
+                generateBaseHTML(teamArray);
         }
     }
     
     )
+    .catch((err) => console.error(err));
 }
 
 // start by creating a manager
@@ -120,24 +117,29 @@ function init() {
 inquirer
     .prompt(questionsManager)
     .then((data) => {
-        const manager = generateHTML.createManager(data.name, data.ID, data.email, data.office);
+        const manager = new Manager(data.name, data.ID, data.email, data.office);
+        teamArray.push(manager);
         console.log (manager);
-        writeHTML(generateHTML.page(manager)); //! This call the writeHTML function in this file using the stringHTML returned by the page function in the generateHTML file, which itself uses the string template from the managerHTML function in the generateHTML file. I need to make this work with engineers and interns, every time a new one is created, without knowing how many will be created. This means I can simply append the card html to a string template setup for engineer and for intern, meaning I will have an engineer template that is full of engineer cards, and an intern template that is full of intern cards, and those individual templates will be added to the main html file at the end. 
-
         createMenu();
     })
 }
+
+
 
 // function to create a new engineer object using the questionsEngineer array 
 function engineerPrompt() {
     inquirer
     .prompt(questionsEngineer)
     .then((data) => {
-        let engineer = generateHTML.createEngineer(data.name, data.ID, data.email, data.github);
-        console.log(engineer);
+        let engineer = new Engineer(data.name, data.ID, data.email, data.github);
+        teamArray.push(engineer);
         createMenu();
     })
 }
+
+// add .catch
+// .finally run regardless of error
+// throw keyword (err)
 
 function internPrompt() {
     inquirer
@@ -151,8 +153,10 @@ function internPrompt() {
     
 }
 
+
 function writeHTML(stringHTML) {
     
+    // .then and .catch because it now returns promise
     fs.writeFile("./template.html", stringHTML, (err) => {
     if (err) {
         console.log(err);
@@ -162,5 +166,7 @@ function writeHTML(stringHTML) {
     }
 })
 }
+
+
 
 init();

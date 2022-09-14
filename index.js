@@ -8,7 +8,8 @@ const inquirer = require('inquirer');
 const fs = require('fs');
 const generateBaseHTML = require('./utils/generateHTML.js');
 const Manager = require('./lib/Manager');
-
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
 const teamArray = [];
 
 // array of questions for prompt to create new Manager instance object
@@ -66,7 +67,7 @@ const questionsIntern = [
     },
     {
         type: "input",
-        name: "internID",
+        name: "ID",
         message: "ID? "
     },
     {
@@ -95,16 +96,16 @@ function createMenu() {
     ])
     .then(({ employee }) => {
         switch(employee) {
-            // case "Engineer":
-            //     console.log("Create a new engineer");
-            //     engineerPrompt();
-            //     break;
-            // case "Intern":
-            //     console.log("Create a new Intern");
-            //     internPrompt();
-            //     break;
+            case "Engineer":
+                engineerPrompt();
+                break;
+            case "Intern":
+                internPrompt();
+                break;
             default:
-                generateBaseHTML(teamArray);
+                console.log(teamArray);
+                console.log(generateBaseHTML(teamArray));
+                writeHTML(generateBaseHTML(teamArray));
         }
     }
     
@@ -146,8 +147,8 @@ function internPrompt() {
     .prompt(questionsIntern)
     .then((data) => {
         console.log(data);
-        let intern = generateHTML.createIntern(data.name, data.internID, data.email, data.school);
-        console.log(intern);
+        let intern = new Intern(data.name, data.ID, data.email, data.school);
+        teamArray.push(intern);
         createMenu();
     })
     
@@ -155,9 +156,38 @@ function internPrompt() {
 
 
 function writeHTML(stringHTML) {
+    let str = stringHTML.toString();
+    let template = `<!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <meta name="Description" content="Enter your description here" />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
+        />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        />
+        <link rel="stylesheet" href="assets/css/style.css" />
+        <title>Your Team!</title>
+      </head>
+      <body>
+     
+        ${str}
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+      </body>
+    </html>
+`
     
     // .then and .catch because it now returns promise
-    fs.writeFile("./template.html", stringHTML, (err) => {
+    fs.writeFile("./template.html", template, (err) => {
     if (err) {
         console.log(err);
     }

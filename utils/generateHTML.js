@@ -1,57 +1,4 @@
 
-// ! global variable for HTML, will be appended each time a new engineer is added. 
-var engineerStringHTML = ``
-
-function engineerHTML(engineerStringHTML, data) {
-    //! Pass a global variable for the HTML here, keep appending to it
-    engineerStringHTML.concat(`<div class="card" style="width: 18rem;">
-    <div class="card-body">
-    <h5 class="card-title">Manager</h5>
-    <ul>
-    <li>${data.name}</li>
-    <li>${data.ID}</li>
-    <li>${data.email}</li>
-    <li>${data.github}</li>
-    </ul>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
-    </div>`);
-    return engineerStringHTML;
-}
-
-
-// Manager html card generator
-function managerHTML(manager) {
-  let stringHTML = 
-`<div class="card" style="width: 18rem;">
-<div class="card-body">
-<h5 class="card-title">Manager</h5>
-<ul>
-<li>${manager.name}</li>
-<li>${manager.ID}</li>
-<li>${manager.email}</li>
-<li>${manager.office}</li>
-</ul>
-<a href="#" class="btn btn-primary">Go somewhere</a>
-</div>
-</div>`
-return stringHTML;
-};
-
-function writeHTML(HTML) {
-    
-    fs.writeFile("./template.html", stringHTML, (err) => {
-    if (err) {
-        console.log(err);
-    }
-    else {
-        console.log("success");
-    }
-})
-}
-
-
-
 function generateTeamHTML(team) {
     let stringHTML = ``;
     for (var i = 0; i < team.length; i++) {
@@ -103,8 +50,6 @@ function generateTeamHTML(team) {
 </div>
 </div>`
         }
-        //
-    // 
 
     }
     return stringHTML.toString();
